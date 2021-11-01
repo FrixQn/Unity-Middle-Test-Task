@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff95ed4d0b8fb3f4a90fab779930693a, type: 3}
+  m_Name: Level 3
+  m_EditorClassIdentifier: 
+  LevelId: 3
+  Answer: "\u0424\u0443\u0442\u0431\u043E\u043B"
+  Images:
+  - {fileID: 21300000, guid: 7c0964b74b3a9d94289091297d561831, type: 3}
+  - {fileID: 21300000, guid: fb14fc1a2d2746549aae40e5ca61e5ce, type: 3}
+  - {fileID: 21300000, guid: 710113a2119243f4b97c516001830d83, type: 3}
+  - {fileID: 21300000, guid: f7be897e2c569bd43b762c0ae3c6aa93, type: 3}
+  Price: 02000000040000000600000008000000

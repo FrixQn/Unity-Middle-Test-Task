@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff95ed4d0b8fb3f4a90fab779930693a, type: 3}
+  m_Name: Level 8
+  m_EditorClassIdentifier: 
+  LevelId: 8
+  Answer: "\u0424\u043E\u0440\u0437\u0430"
+  Images:
+  - {fileID: 21300000, guid: 3819648bb77146b4782ffa5a2a34f4d4, type: 3}
+  - {fileID: 21300000, guid: e2a9a7c4238ae194aabf4bb738570878, type: 3}
+  - {fileID: 21300000, guid: cb2662e532cb44b4f9f57ac42098f231, type: 3}
+  - {fileID: 21300000, guid: ac33bd9aa86bfef4c823f6575ba5037d, type: 3}
+  Price: 02000000040000000600000008000000
