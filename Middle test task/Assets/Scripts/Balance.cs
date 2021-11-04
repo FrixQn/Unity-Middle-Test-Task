@@ -9,6 +9,7 @@ public class Balance : MonoBehaviour
     [SerializeField] private Canvas ParentCanvas;
     private void Start()
     {
+
         if (PlayerPrefs.HasKey(BalancePrefs))
         {
             PlayerBalance = PlayerPrefs.GetInt(BalancePrefs);
