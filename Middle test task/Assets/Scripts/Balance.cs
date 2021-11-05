@@ -1,12 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Text))]
 public class Balance : MonoBehaviour
 {
     private static string BalancePrefs = "Balance";
     private static int PlayerBalance;
+
     private Text BalanceText {get => gameObject.GetComponent<Text>();}
     [SerializeField] private Canvas ParentCanvas;
+    private bool IsCanvasActive {get {return ParentCanvas.enabled;}}
+
     private void Start()
     {
 
@@ -26,7 +30,7 @@ public class Balance : MonoBehaviour
 
     void Update()
     {
-        if (ParentCanvas.enabled)
+        if (IsCanvasActive)
         {
             DrawBalance();
         }
@@ -49,21 +53,22 @@ public class Balance : MonoBehaviour
         if (PlayerBalance - Price >= 0)
         {
             PlayerBalance -= Price;
-            DrawBalance();
             isConfirmTransaction = true;
-            
+            DrawBalance();
         }
 
-        
-        PlayerPrefs.SetInt(BalancePrefs,PlayerBalance);
-        PlayerPrefs.Save();
+        UpdatePlayerPrefs();
     }
 
     public void ReturnBalance(int valueToBack)
     {
         PlayerBalance += valueToBack;
         DrawBalance();
+        UpdatePlayerPrefs();
+    }
 
+    private void UpdatePlayerPrefs()
+    {
         PlayerPrefs.SetInt(BalancePrefs, PlayerBalance);
         PlayerPrefs.Save();
     }

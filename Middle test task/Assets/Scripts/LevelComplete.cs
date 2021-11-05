@@ -11,7 +11,11 @@ public class LevelComplete : MonoBehaviour
     [SerializeField] private Font DefaultFont;
 
     private const string CompleteLevelsStatsPrefs = "TotalLevelsComplete";
+
+#region  Integer
     private static int LevelsCompleted;
+    public static int CompletedLevels{ get {return LevelsCompleted;}}
+#endregion
 
     private void Start()
     {
@@ -46,10 +50,7 @@ public class LevelComplete : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public static int GetCompletedLevels()
-    {
-        return LevelsCompleted;
-    }
+
 
     public void CreateWinnigWord(string Answer, Color Default)
     {

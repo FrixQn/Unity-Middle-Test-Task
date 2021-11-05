@@ -1,14 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class BuyPanel : MonoBehaviour
 {
-    private GameObject Child { get => gameObject.transform.GetChild(0).gameObject;}
-    private int Price {get; set;}
+#region  SerializedFields
     [SerializeField] private Text PriceText;
-    private Balance PlayerBalance {get => FindObjectOfType<Balance>();}
+#endregion
+
+#region GameObjects
+    private GameObject Child { get => gameObject.transform.GetChild(0).gameObject;}
+#endregion
+
+#region Balance
+    private Balance PlayerBalance;
+#endregion
+
+#region Integer
+    private int Price {get; set;}
+#endregion
+
+#region  Boolean
     private bool isTransactionSuccess;
-    public bool IsTransactionSuccessed() {return isTransactionSuccess;}
+    public bool IsTransactionSuccessed {get {return isTransactionSuccess;}}
+#endregion
+
+    private void Start()
+    {
+        PlayerBalance = FindObjectOfType<Balance>();
+    }
 
     public void SetPrice(int _Price)
     {
@@ -25,10 +45,10 @@ public class BuyPanel : MonoBehaviour
     public void BuyImage()
     {
         PlayerBalance.MakeOrder(Price, out isTransactionSuccess);
-        SetState(false);
         if (isTransactionSuccess)
         {
             SoundController.Play(SoundController.statPurchasingSound);
+            SetState(false);
         }
     }
 }

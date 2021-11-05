@@ -3,42 +3,67 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Image))]
 public class ImagePiece : MonoBehaviour
 {
+#region Constants
     const int MAX_SCALED_RECT_X = 690;
     const int MAX_SCALED_RECT_Y = 690;
     const int SCALING_SPEED = 30;
+#endregion
 
+#region SerializeField
+    [SerializeField] private ImageNumber ImageNumb;
+#endregion
+
+#region Float
     private float StartSizeX;
     private float StartSizeY;
+#endregion
 
+#region Transform
     private Transform MaskTransform;
     private Transform PanelTranform;
+#endregion
+    
+#region BuyPanel
+    private BuyPanel BuyPanel;
+#endregion
+
+#region Integer
+    public int Price {get; set;}
+    public int ImageId {get => (int)ImageNumb;}
+#endregion
+
+#region Enumerators
+    private enum ImageNumber {First = 0, Second = 1, Third = 2, Forth = 3};
+#endregion
+
+#region Sprite
+    public Sprite ImageSprite { get ; set;}
+#endregion
+
+#region Image
+    private Image LockedSprite;
+    private Image CurrentImagePiece {get => gameObject.GetComponent<Image>();}
+#endregion
+
+
+
     private void SetTransforms()
     {
         MaskTransform = CurrentImagePiece.transform.parent;
         PanelTranform = MaskTransform.transform.parent;
     }
 
-    private BuyPanel BuyPanel;
-    public int Price {get; set;}
-
-
-    private enum ImageNumber {First = 0, Second = 1, Third = 2, Forth = 3};
-    [SerializeField] private ImageNumber ImageNumb;
-    public int ImageId {get => (int)ImageNumb;}
-
-    public Sprite ImageSprite { get ; set;}
-    private Image LockedSprite;
-    private Image CurrentImagePiece {get => gameObject.GetComponent<Image>();}
-
-    //States
-    private bool isFullSize = false;
-    private bool isLocked = false;
-    private bool MayUnlock = false;
-    private bool isUnlocked = false;
+#region Boolean
+    private bool isFullSize;
+    private bool isLocked;
+    private bool MayUnlock;
+    private bool isUnlocked;
     private bool isScaling;
-    
+
+#endregion
     private void OnEnable()
     {
         StartCoroutine(SetImage());
@@ -64,7 +89,7 @@ public class ImagePiece : MonoBehaviour
 
     private void Update()
     {
-        if (MayUnlock && BuyPanel.IsTransactionSuccessed())
+        if (MayUnlock && BuyPanel.IsTransactionSuccessed)
         {
             isUnlocked = true;
             MayUnlock = false;
@@ -73,23 +98,20 @@ public class ImagePiece : MonoBehaviour
         }
 
         if (isLocked)
-        {
             LockedSprite.enabled = true;
-        }else
-        {
+            else
             LockedSprite.enabled = false;
-        }
 
         if (MayUnlock)
         {
             isLocked = false;
             BuyPanel.SetState(true);
-            SearchNextImageToUnlock();
+            LockNextImage();
         }
 
         if (isUnlocked)
         {
-            SearchNextImageToBuy();
+            MayUnlockNextImage();
         }
     }
     private void AddButtonComponent()
@@ -117,45 +139,22 @@ public class ImagePiece : MonoBehaviour
         }
     }
 
-    private void SearchNextImageToBuy()
+    private void MayUnlockNextImage()
     {
         ImagePiece[] ArrayOfPieces = FindObjectsOfType<ImagePiece>();
-        int i = 0;
-        while(true)
-        {
-            if (i >= ArrayOfPieces.Length)
-            {
-                break;
-            }
-
-            if (ArrayOfPieces[i].ImageId == (ImageId + 1) && (ImageId + 1) < ArrayOfPieces.Length && i < ArrayOfPieces.Length)
-            {
-                ArrayOfPieces[i].MayUnlock = true;
-                break;
-            }
-            i++;
-        }
+        
+        if (ImageId + 1 < ArrayOfPieces.Length)
+            ArrayOfPieces[ImageId + 1].MayUnlock = true;
     }
 
-    private void SearchNextImageToUnlock()
+    private void LockNextImage()
     {
         ImagePiece[] ArrayOfPieces = FindObjectsOfType<ImagePiece>();
-        int i = 0;
-        while(true)
-        {
-            if (i >= ArrayOfPieces.Length)
-            {
-                break;
-            }
-            if (ArrayOfPieces[i].ImageId == (ImageId + 1) && (ImageId + 1) < ArrayOfPieces.Length)
-            {
-                ArrayOfPieces[i].isLocked = true;
-                break;
-            }
-            i++;
-        }
+        if (ImageId + 1 < ArrayOfPieces.Length)
+            ArrayOfPieces[(int)ImageNumb + 1].isLocked = true;
     }
-    
+
+#region IEnumerator
     private IEnumerator SetImage()
     {
         while(true)
@@ -210,4 +209,5 @@ public class ImagePiece : MonoBehaviour
         CurrentImagePiece.transform.SetParent(MaskTransform);
         isScaling = false;
     }
+#endregion
 }

@@ -6,10 +6,8 @@ public class LevelConfiguration : ScriptableObject
 {
     [SerializeField] private int LevelId;
     public int LevelID {get => LevelId;}
-    [SerializeField] private string Answer;
-    public string GetAnswer(){ 
-        return Answer;
-    }
+    [SerializeField] private string LevelAnswer;
+    public string Answer {get { return LevelAnswer;}}
     [SerializeField] private Sprite[] Images = new Sprite[4];
     public Sprite GetImage(int imgId)
     {

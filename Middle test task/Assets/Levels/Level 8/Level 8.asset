@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level 8
   m_EditorClassIdentifier: 
   LevelId: 8
-  Answer: "\u0424\u043E\u0440\u0437\u0430"
+  LevelAnswer: "\u0424\u043E\u0440\u0437\u0430"
   Images:
   - {fileID: 21300000, guid: 3819648bb77146b4782ffa5a2a34f4d4, type: 3}
   - {fileID: 21300000, guid: e2a9a7c4238ae194aabf4bb738570878, type: 3}

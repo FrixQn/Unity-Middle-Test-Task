@@ -4,9 +4,14 @@ using UnityEngine.UI;
 
 public class Keyboard : MonoBehaviour
 {
+#region List
     private List<KeyAction> Actions = new List<KeyAction>();
     private static List<KeyAction> statActions = new List<KeyAction>();
-    private Button[] Buttons {get => gameObject.GetComponentsInChildren<Button>();}
+#endregion
+
+#region Button
+    private Button[] Buttons {get {return GetComponentsInChildren<Button>();}}
+#endregion
     public int KeysCount {get => Buttons.Length;}
     public static WordsLine WordLine {get => FindObjectOfType<WordsLine>();}
 
@@ -20,8 +25,8 @@ public class Keyboard : MonoBehaviour
         {
             for (int i = 0; i < Buttons.Length; i++)
             {
-                
-                Buttons[i].GetComponentInChildren<Text>().text = keysArray[i].ToString();
+                Text buttonSymbol = Buttons[i].GetComponentInChildren<Text>();
+                buttonSymbol.text = keysArray[i].ToString();
 
                 Actions.Add(new KeyAction(keysArray[i], Buttons[i]));
 
