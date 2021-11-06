@@ -6,36 +6,52 @@ using System;
 
 public class WordsLine : MonoBehaviour
 {
-    //Constants
+#region Constants
     public const int MAX_WORD_LENGTH = 9;
     public const int MIN_WORD_LENGTH = 3;
     public const int ConstantPixelWidth = 840;
-    //Colors
+#endregion
+
+#region Color
     private Color DefaultColor = Color.white;
+#endregion
+
+#region SerializableFields
     [SerializeField] private Color UnchekedKeyColor;
     [SerializeField] private Color RightKeyColor;
     [SerializeField] private Color WrongKeyColor;
-    //Font
     [SerializeField] private Font DefaultFont;
-
-    private Transform Field {get => gameObject.transform;}
     [SerializeField] private Sprite EmptyCell;
+#endregion
+
+#region Transform
+    private Transform Field {get => gameObject.transform;}
+#endregion
+
+#region KeyAction
     KeyAction[] CellsOnTheLine;
-    private string Answer {get; set;}
+#endregion
 
+#region String
+    //private string Answer {get; set;}
+#endregion
+
+#region LevelComplete
     private LevelComplete Complete {get => FindObjectOfType<LevelComplete>();}
-
+#endregion
+    
+#region Boolean
     private bool isWrongAnswer;
-    public bool IsAnswerWrong(){return isWrongAnswer;}
-
+    public bool IsAnswerWrong {get {return isWrongAnswer;}}
     private bool isCleanedKeys = false;
+#endregion
 
-    public void CreateWordFieldAndSetAnswer(string answer)
+    public void CreateWordField()
     {
-        Answer = answer;
-        if (Answer.Length <= MAX_WORD_LENGTH && Answer.Length >= MIN_WORD_LENGTH){
-            CellsOnTheLine = new KeyAction[answer.Length];
-            for (int i = 0; i < Answer.Length; i++)
+        if (GameLogic.Answer.Length <= MAX_WORD_LENGTH && GameLogic.Answer.Length >= MIN_WORD_LENGTH){
+
+            CellsOnTheLine = new KeyAction[GameLogic.Answer.Length];
+            for (int i = 0; i < GameLogic.Answer.Length; i++)
             {
                 GameObject CharCell = new GameObject("Word char " + i, new Type[] {typeof(RectTransform), typeof(CanvasRenderer), typeof(Image)});
                 RectTransform CharCellRectTransform = CharCell.GetComponent<RectTransform>();
@@ -43,7 +59,7 @@ public class WordsLine : MonoBehaviour
                 CharCell.transform.SetParent(Field);
 
                 CharCellRectTransform.sizeDelta = new Vector2(85, 85);
-                CharCellRectTransform.localPosition = new Vector3(CenterOffset(CharCellRectTransform.sizeDelta.x, i, Answer.Length), 65f, 0f);
+                CharCellRectTransform.localPosition = new Vector3(CenterOffset(CharCellRectTransform.sizeDelta.x, i, GameLogic.Answer.Length), 65f, 0f);
                 CharCellRectTransform.localScale = Vector3.one;
                 CharCellRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
@@ -56,6 +72,7 @@ public class WordsLine : MonoBehaviour
         }
         
     }
+
     public static int CenterOffset(float cellSizeX, int index, int total)
     {
         
@@ -132,8 +149,8 @@ public class WordsLine : MonoBehaviour
         }
         else
         {
-            for (int x = 0; x < Answer.Length; x++){
-                if (Answer.ToUpper()[x] == symbol)
+            for (int x = 0; x < GameLogic.Answer.Length; x++){
+                if (GameLogic.Answer.ToUpper()[x] == symbol)
                 {
                     GameObject Cell = gameObject.transform.GetChild(x).gameObject;
                     if (Cell.transform.childCount == 0)
@@ -195,7 +212,7 @@ public class WordsLine : MonoBehaviour
     {
         string answer = "";
         int i = 0;
-        while (i < Answer.Length)
+        while (i < GameLogic.Answer.Length)
         {
             GameObject cell = gameObject.transform.GetChild(i).gameObject;
             if (cell.transform.childCount == 0)
@@ -206,9 +223,9 @@ public class WordsLine : MonoBehaviour
             i++;
             
         }
-        if (i == Answer.Length)
+        if (i == GameLogic.Answer.Length)
         {
-            if (Answer.ToUpper() != answer)
+            if (GameLogic.Answer.ToUpper() != answer)
             {
                 SoundController.Play(SoundController.statMistake);
                 StartCoroutine(ShowMistake());
@@ -216,7 +233,7 @@ public class WordsLine : MonoBehaviour
             }else
             {
                 Complete.ShowWinningCanvas(true);
-                Complete.CreateWinnigWord(Answer, UnchekedKeyColor);
+                Complete.CreateWinnigWord(GameLogic.Answer, UnchekedKeyColor);
                 LevelComplete.Complete();
             }
         }
@@ -244,14 +261,14 @@ public class WordsLine : MonoBehaviour
         List<Image> RightKeys = FindRightKeys();
 
         int x = 0;
-        while (x < Answer.Length)
+        while (x < GameLogic.Answer.Length)
         {
             gameObject.transform.GetChild(x).GetComponent<Image>().color = WrongKeyColor;
             x++;
         }
         yield return new WaitForSeconds(0.5f);
         int i = 0;
-        while (i < Answer.Length)
+        while (i < GameLogic.Answer.Length)
         {
             Image CellImage = transform.GetChild(i).GetComponent<Image>();
             CellImage.color = UnchekedKeyColor;
@@ -270,7 +287,7 @@ public class WordsLine : MonoBehaviour
         
         isMayToPlace = false;
         ClearLine();
-        char[] RightKeys = Answer.ToUpper().ToCharArray();
+        char[] RightKeys = GameLogic.Answer.ToUpper().ToCharArray();
         List<int> EnabledSymbolIndex = new List<int>();
         int i = 0;
 
@@ -297,11 +314,11 @@ public class WordsLine : MonoBehaviour
     {
         
         if (isCleanedKeys == false){
-        char[] RightCells = Answer.ToUpper().ToCharArray();
+        char[] RightCells = GameLogic.Answer.ToUpper().ToCharArray();
         List<KeyAction> AllActions = Keyboard.GetAllActions();
         List<KeyAction> RightActions = new List<KeyAction>();
 
-        for (int i = 0; i < Answer.Length; i++)
+        for (int i = 0; i < GameLogic.Answer.Length; i++)
         {
             for (int x = 0; x < AllActions.Count; x++)
             {
@@ -339,7 +356,7 @@ public class WordsLine : MonoBehaviour
     {
         List<Image> CurrentList = new List<Image>();
 
-        for (int i = 0; i < Answer.Length; i++)
+        for (int i = 0; i < GameLogic.Answer.Length; i++)
         {
             Image Cell = transform.GetChild(i).GetComponent<Image>();
             if (Cell.color == RightKeyColor)

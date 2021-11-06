@@ -53,7 +53,7 @@ public class Balance : MonoBehaviour
         BalanceText.text = PlayerBalance.ToString();
     }
 
-    public void MakeOrder(int Price, out bool isConfirmTransaction)
+    public void TryMakeOrder(int Price, out bool isConfirmTransaction)
     {
         isConfirmTransaction = false;
         if (Price < 0)

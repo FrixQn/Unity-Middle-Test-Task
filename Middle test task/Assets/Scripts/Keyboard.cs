@@ -116,7 +116,7 @@ public class KeyAction
     public void CleanCell()
     {
         KeyButton.interactable = true;
-        if (WordsLine.IsAnswerWrong()){
+        if (WordsLine.IsAnswerWrong){
             WordsLine.ClearLine();
         }else
         {

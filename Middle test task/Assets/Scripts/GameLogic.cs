@@ -13,7 +13,7 @@ public class GameLogic : MonoBehaviour
 #endregion
 
 #region LevelConfiguration
-    private LevelConfiguration Level;
+    private static LevelConfiguration Level;
 #endregion
 
 #region Text
@@ -88,6 +88,10 @@ public class GameLogic : MonoBehaviour
     }
 #endregion
 
+#region String
+    public static string Answer {get {return Level.Answer;}}
+#endregion
+    
     private void Start()
     {
         PieceOfImage = GetImages();
@@ -98,7 +102,7 @@ public class GameLogic : MonoBehaviour
             CurrentLevelText.text = Level.LevelID.ToString();
             Keyboard.SetKeys(GeneratedKeys);
 
-            WordsLine.CreateWordFieldAndSetAnswer(Level.Answer);
+            WordsLine.CreateWordField();
             SetImagesAndPrice(PieceOfImage);
         }else
         {

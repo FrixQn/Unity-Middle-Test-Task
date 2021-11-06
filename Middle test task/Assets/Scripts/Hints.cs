@@ -36,7 +36,7 @@ public class Hints : MonoBehaviour
         bool PurchaseResultSuccesed;
         bool MayToHint;
         
-        Balance.MakeOrder(Hint2Price, out PurchaseResultSuccesed);
+        Balance.TryMakeOrder(Hint2Price, out PurchaseResultSuccesed);
         if (PurchaseResultSuccesed == true)
         {
             WordsLine.ShowRandomChar(out MayToHint);
@@ -56,7 +56,7 @@ public class Hints : MonoBehaviour
         bool PurchaseResultSuccesed;
         bool MayToHint;
 
-        Balance.MakeOrder(Hint1Price, out PurchaseResultSuccesed);
+        Balance.TryMakeOrder(Hint1Price, out PurchaseResultSuccesed);
         if (PurchaseResultSuccesed == true)
         {
             WordsLine.HideOtherChars(out MayToHint);

@@ -39,7 +39,7 @@ public class BuyPanel : MonoBehaviour
 
     public void BuyImage()
     {
-        PlayerBalance.MakeOrder(Price, out isTransactionSuccess);
+        PlayerBalance.TryMakeOrder(Price, out isTransactionSuccess);
         if (isTransactionSuccess)
         {
             SoundController.Play(SoundController.statPurchasingSound);
