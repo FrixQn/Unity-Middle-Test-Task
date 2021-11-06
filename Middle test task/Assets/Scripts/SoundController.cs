@@ -3,16 +3,25 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SoundController : MonoBehaviour
 {
+    
+#region AuioSource
     private static AudioSource AudioSource = new AudioSource();
-    [SerializeField] private AudioClip Mistake;
-    public static AudioClip statMistake;
-    [SerializeField] private AudioClip ClickOnTheButton;
-    public static AudioClip statClickOnTheButton;
-    [SerializeField] private AudioClip ScalingImageSound;
-    public static AudioClip statScalingSound;
-    [SerializeField] private AudioClip PurchasingSound;
-    public static AudioClip statPurchasingSound;
+#endregion
 
+#region SerializebleFields
+    [SerializeField] private AudioClip Mistake;
+    [SerializeField] private AudioClip ClickOnTheButton;
+    [SerializeField] private AudioClip ScalingImageSound;
+    [SerializeField] private AudioClip PurchasingSound;
+#endregion
+
+#region AudioClip
+    public static AudioClip statMistake;
+    public static AudioClip statClickOnTheButton;   
+    public static AudioClip statScalingSound;
+    public static AudioClip statPurchasingSound;
+#endregion
+    
     private void Start()
     {
         AudioSource = gameObject.GetComponent<AudioSource>();

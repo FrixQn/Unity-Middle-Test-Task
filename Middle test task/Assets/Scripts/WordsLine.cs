@@ -32,10 +32,6 @@ public class WordsLine : MonoBehaviour
     KeyAction[] CellsOnTheLine;
 #endregion
 
-#region String
-    //private string Answer {get; set;}
-#endregion
-
 #region LevelComplete
     private LevelComplete Complete {get => FindObjectOfType<LevelComplete>();}
 #endregion

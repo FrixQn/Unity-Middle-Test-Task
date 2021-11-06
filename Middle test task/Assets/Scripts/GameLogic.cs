@@ -122,7 +122,7 @@ public class GameLogic : MonoBehaviour
         for (int i = 0; i < Level.ImagesCount; i++)
         {
             list[i].ImageSprite = Level.GetImage(i);
-            list[i].Price = Level.GetImgaePrice(i);
+            list[i].Price = Level.GetImagePrice(i);
         }
     }
 }

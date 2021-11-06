@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-#region SerializeField
+#region SerializableFields
     [SerializeField] private Text LevelsInfo;
 #endregion
 

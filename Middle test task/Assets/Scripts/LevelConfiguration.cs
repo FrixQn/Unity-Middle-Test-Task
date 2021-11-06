@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class LevelConfiguration : ScriptableObject
 {
+#region  SerializableFields
     [SerializeField] private int LevelId;
-    public int LevelID {get => LevelId;}
     [SerializeField] private string LevelAnswer;
-    public string Answer {get { return LevelAnswer;}}
     [SerializeField] private Sprite[] Images = new Sprite[4];
+    [SerializeField] private int[] Price = new int[4];
+#endregion
+
+#region Integer
+    public int LevelID {get => LevelId;}
+    public int ImagesCount {get => Images.Length;}
+    public int GetImagePrice(int imgId){return Price[imgId];}
+#endregion    
+
+#region String
+    public string Answer {get { return LevelAnswer;}}
+#endregion
+
+#region Sprite
     public Sprite GetImage(int imgId)
     {
         return Images[imgId];
     }
-    public int ImagesCount {get => Images.Length;}
-    [SerializeField] private int[] Price = new int[4];
-    public int GetImgaePrice(int imgId)
-    {
-        return Price[imgId];
-    }
+#endregion
+
 
 }
 
