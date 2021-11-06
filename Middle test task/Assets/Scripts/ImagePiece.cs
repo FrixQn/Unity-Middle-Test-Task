@@ -48,13 +48,64 @@ public class ImagePiece : MonoBehaviour
     private Image CurrentImagePiece {get => gameObject.GetComponent<Image>();}
 #endregion
 
-
-
-    private void SetTransforms()
+#region IEnumerators
+    private IEnumerator SetImage()
     {
-        MaskTransform = CurrentImagePiece.transform.parent;
-        PanelTranform = MaskTransform.transform.parent;
+        while(true)
+        {
+            if (ImageSprite != null)
+            {
+                CurrentImagePiece.sprite = ImageSprite;
+                break;
+            }
+            yield return new WaitForFixedUpdate();
+        }
     }
+
+    private IEnumerator WaitPrice()
+    {
+        while (true)
+        {
+            if (Price != 0)
+            {
+                BuyPanel.SetPrice(Price);
+            }
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private IEnumerator ScalingVisualization()
+    {
+        CurrentImagePiece.transform.SetParent(PanelTranform);
+        RectTransform ImageRect = gameObject.GetComponent<RectTransform>();
+        isScaling = true;
+
+        while(ImageRect.sizeDelta.x <= MAX_SCALED_RECT_X && ImageRect.sizeDelta.y <= MAX_SCALED_RECT_Y)
+        {
+            ImageRect.sizeDelta += Vector2.one * SCALING_SPEED;
+        
+            yield return new WaitForFixedUpdate();
+        }
+        isScaling = false;
+    }
+
+    private IEnumerator DecreasingVisualization()
+    {
+        RectTransform ImageRect = gameObject.GetComponent<RectTransform>();
+        isScaling = true;
+
+        while(ImageRect.sizeDelta.x > StartSizeX && ImageRect.sizeDelta.y > StartSizeY)
+        {
+            
+            ImageRect.sizeDelta -= Vector2.one * SCALING_SPEED;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        CurrentImagePiece.transform.SetParent(MaskTransform);
+        isScaling = false;
+    }
+#endregion
 
 #region Boolean
     private bool isFullSize;
@@ -74,6 +125,14 @@ public class ImagePiece : MonoBehaviour
         StartSizeX = gameObject.GetComponent<RectTransform>().sizeDelta.x;
         StartSizeY = gameObject.GetComponent<RectTransform>().sizeDelta.y;
     }
+
+    
+    private void SetTransforms()
+    {
+        MaskTransform = CurrentImagePiece.transform.parent;
+        PanelTranform = MaskTransform.transform.parent;
+    }
+
 
     void Start()
     {
@@ -114,6 +173,7 @@ public class ImagePiece : MonoBehaviour
             MayUnlockNextImage();
         }
     }
+    
     private void AddButtonComponent()
     {
         Button pieceButton = CurrentImagePiece.gameObject.AddComponent<Button>();
@@ -122,18 +182,17 @@ public class ImagePiece : MonoBehaviour
 
     private void SetFullSizeImage()
     {
-        if (isScaling != true){
+        if (!isScaling){
 
             isFullSize = !isFullSize;
             
-            if (isFullSize == false){
-                StartCoroutine(DecreasingVisualization());
-                SoundController.Play(SoundController.statScalingSound);
-            }
             if(isFullSize == true)
             {
-                CurrentImagePiece.transform.SetParent(PanelTranform);
                 StartCoroutine(ScalingVisualization());
+                SoundController.Play(SoundController.statScalingSound);
+            }else
+            {
+                StartCoroutine(DecreasingVisualization());
                 SoundController.Play(SoundController.statScalingSound);
             }
         }
@@ -154,60 +213,4 @@ public class ImagePiece : MonoBehaviour
             ArrayOfPieces[(int)ImageNumb + 1].isLocked = true;
     }
 
-#region IEnumerator
-    private IEnumerator SetImage()
-    {
-        while(true)
-        {
-            if (ImageSprite != null)
-            {
-                CurrentImagePiece.sprite = ImageSprite;
-                break;
-            }
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
-    private IEnumerator WaitPrice()
-    {
-        while (true)
-        {
-            if (Price != 0)
-            {
-                BuyPanel.SetPrice(Price);
-            }
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
-    private IEnumerator ScalingVisualization()
-    {
-        RectTransform ImageRect = gameObject.GetComponent<RectTransform>();
-        isScaling = true;
-
-        while(ImageRect.sizeDelta.x <= MAX_SCALED_RECT_X && ImageRect.sizeDelta.y <= MAX_SCALED_RECT_Y)
-        {
-            ImageRect.sizeDelta += Vector2.one * SCALING_SPEED;
-        
-            yield return new WaitForFixedUpdate();
-        }
-        isScaling = false;
-    }
-
-    private IEnumerator DecreasingVisualization()
-    {
-        RectTransform ImageRect = gameObject.GetComponent<RectTransform>();
-        isScaling = true;
-
-        while(ImageRect.sizeDelta.x > StartSizeX && ImageRect.sizeDelta.y > StartSizeY)
-        {
-            
-            ImageRect.sizeDelta -= Vector2.one * SCALING_SPEED;
-
-            yield return new WaitForFixedUpdate();
-        }
-        CurrentImagePiece.transform.SetParent(MaskTransform);
-        isScaling = false;
-    }
-#endregion
 }

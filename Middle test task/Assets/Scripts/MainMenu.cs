@@ -4,16 +4,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+#region SerializeField
     [SerializeField] private Text LevelsInfo;
+#endregion
+
     void Start()
     {
-        if (PlayerPrefs.HasKey(LevelComplete.GetCompletedLevelsPrefs()))
+        if (PlayerPrefs.HasKey(LevelComplete.CompletedLevelsPrefs))
         {
-            LevelsInfo.text = PlayerPrefs.GetInt(LevelComplete.GetCompletedLevelsPrefs()).ToString();
+            LevelsInfo.text = PlayerPrefs.GetInt(LevelComplete.CompletedLevelsPrefs).ToString();
         }else
         {
-            PlayerPrefs.SetInt(LevelComplete.GetCompletedLevelsPrefs(), 0);
-            LevelsInfo.text = PlayerPrefs.GetInt(LevelComplete.GetCompletedLevelsPrefs()).ToString();
+            PlayerPrefs.SetInt(LevelComplete.CompletedLevelsPrefs, 0);
+            LevelsInfo.text = PlayerPrefs.GetInt(LevelComplete.CompletedLevelsPrefs).ToString();
         }
     }
 
@@ -26,6 +29,6 @@ public class MainMenu : MonoBehaviour
     public void ClearProgres()
     {
         PlayerPrefs.DeleteAll();
-        LevelsInfo.text = PlayerPrefs.GetInt(LevelComplete.GetCompletedLevelsPrefs()).ToString();
+        LevelsInfo.text = PlayerPrefs.GetInt(LevelComplete.CompletedLevelsPrefs).ToString();
     }
 }

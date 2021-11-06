@@ -5,12 +5,20 @@ using System;
 
 public class LevelComplete : MonoBehaviour
 {
+#region Canvas
     private Canvas WinningHUD {get => GetComponent<Canvas>();}
+#endregion
+
+#region SerializeField
     [SerializeField] private Transform Field;
     [SerializeField] private Sprite EmptyCellSprite;
     [SerializeField] private Font DefaultFont;
+#endregion
 
-    private const string CompleteLevelsStatsPrefs = "TotalLevelsComplete";
+#region String
+    private const string CompleteLevelsPrefs = "TotalLevelsComplete";
+    public static string CompletedLevelsPrefs {get {return CompleteLevelsPrefs;}}
+#endregion
 
 #region  Integer
     private static int LevelsCompleted;
@@ -19,22 +27,17 @@ public class LevelComplete : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey(CompleteLevelsStatsPrefs))
+        if (PlayerPrefs.HasKey(CompleteLevelsPrefs))
         {
-            LevelsCompleted = PlayerPrefs.GetInt(CompleteLevelsStatsPrefs);
+            LevelsCompleted = PlayerPrefs.GetInt(CompleteLevelsPrefs);
         }
         else
         {
-            PlayerPrefs.SetInt(CompleteLevelsStatsPrefs, 0);
+            PlayerPrefs.SetInt(CompleteLevelsPrefs, 0);
             LevelsCompleted = 0;
         }
 
         PlayerPrefs.Save();
-    }
-
-    public static string GetCompletedLevelsPrefs()
-    {
-        return CompleteLevelsStatsPrefs;
     }
     
     public void ShowWinningCanvas(bool state)
@@ -45,7 +48,7 @@ public class LevelComplete : MonoBehaviour
     public static void Complete()
     {
         LevelsCompleted++;
-        PlayerPrefs.SetInt(CompleteLevelsStatsPrefs, LevelsCompleted);
+        PlayerPrefs.SetInt(CompleteLevelsPrefs, LevelsCompleted);
 
         PlayerPrefs.Save();
     }
@@ -54,10 +57,13 @@ public class LevelComplete : MonoBehaviour
 
     public void CreateWinnigWord(string Answer, Color Default)
     {
-        if (Answer.Length <= WordsLine.MAX_WORD_LENGTH && Answer.Length >= WordsLine.MIN_WORD_LENGTH){
+        if (Answer.Length <= WordsLine.MAX_WORD_LENGTH &&
+        
+         Answer.Length >= WordsLine.MIN_WORD_LENGTH){
             for (int i = 0; i < Answer.Length; i++)
             {
-                GameObject CharCell = new GameObject("Word char " + i, new Type[] {typeof(RectTransform), typeof(CanvasRenderer), typeof(Image)});
+                Type[] ComponentsToAdd = new Type[] {typeof(RectTransform), typeof(CanvasRenderer), typeof(Image)};
+                GameObject CharCell = new GameObject("Word char " + i, ComponentsToAdd);
                 RectTransform CharCellRectTransform = CharCell.GetComponent<RectTransform>();
 
                 CharCell.transform.SetParent(Field);

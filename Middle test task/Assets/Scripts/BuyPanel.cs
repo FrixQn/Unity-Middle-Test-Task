@@ -13,7 +13,7 @@ public class BuyPanel : MonoBehaviour
 #endregion
 
 #region Balance
-    private Balance PlayerBalance;
+    private Balance PlayerBalance {get {return FindObjectOfType<Balance>();}}
 #endregion
 
 #region Integer
@@ -24,11 +24,6 @@ public class BuyPanel : MonoBehaviour
     private bool isTransactionSuccess;
     public bool IsTransactionSuccessed {get {return isTransactionSuccess;}}
 #endregion
-
-    private void Start()
-    {
-        PlayerBalance = FindObjectOfType<Balance>();
-    }
 
     public void SetPrice(int _Price)
     {

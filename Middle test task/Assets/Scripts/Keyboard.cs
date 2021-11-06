@@ -7,13 +7,40 @@ public class Keyboard : MonoBehaviour
 #region List
     private List<KeyAction> Actions = new List<KeyAction>();
     private static List<KeyAction> statActions = new List<KeyAction>();
+    public static List<KeyAction> GetAllActions(){return statActions;}
 #endregion
 
 #region Button
     private Button[] Buttons {get {return GetComponentsInChildren<Button>();}}
 #endregion
+    
+#region Integer
     public int KeysCount {get => Buttons.Length;}
+#endregion
+    
+#region WordLine
     public static WordsLine WordLine {get => FindObjectOfType<WordsLine>();}
+#endregion
+
+#region KeyAction 
+    public static KeyAction FindKeyActionByCharValue(char value)
+    {
+        int i = 0;
+        KeyAction current = null;
+
+        while (i < statActions.Count)
+        {
+            if (statActions[i].GetKey() == value && statActions[i].isClickable())
+            {
+                current = statActions[i];
+                break;
+            }
+            i++;
+        }
+
+        return current;
+    }
+#endregion
 
     public void SetKeys(List<char> keysArray)
     {
@@ -43,33 +70,11 @@ public class Keyboard : MonoBehaviour
         SoundController.Play(SoundController.statClickOnTheButton);
     }
 
-    public static KeyAction FindKeyActionByCharValue(char value)
-    {
-        int i = 0;
-        KeyAction current = null;
-
-        while (i < statActions.Count)
-        {
-            if (statActions[i].GetKey() == value && statActions[i].isClickable())
-            {
-                current = statActions[i];
-                break;
-            }
-            i++;
-        }
-
-        return current;
-    }
-
     public static void SetRightKeyActions(List<KeyAction> newKeyActions)
     {
         statActions = newKeyActions;
     }
 
-    public static List<KeyAction> GetAllActions()
-    {
-        return statActions;
-    }
 }
 
 public class KeyAction

@@ -4,12 +4,25 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class Balance : MonoBehaviour
 {
+#region String
     private static string BalancePrefs = "Balance";
-    private static int PlayerBalance;
+#endregion
 
-    private Text BalanceText {get => gameObject.GetComponent<Text>();}
+#region SerializeField
     [SerializeField] private Canvas ParentCanvas;
+#endregion
+
+#region Integer
+    private static int PlayerBalance;
+#endregion
+
+#region Text
+    private Text BalanceText {get => gameObject.GetComponent<Text>();}
+#endregion
+
+#region Boolean
     private bool IsCanvasActive {get {return ParentCanvas.enabled;}}
+#endregion
 
     private void Start()
     {
@@ -25,7 +38,6 @@ public class Balance : MonoBehaviour
         }
 
         PlayerPrefs.Save();
-        DrawBalance();
     }
 
     void Update()
@@ -54,7 +66,6 @@ public class Balance : MonoBehaviour
         {
             PlayerBalance -= Price;
             isConfirmTransaction = true;
-            DrawBalance();
         }
 
         UpdatePlayerPrefs();
@@ -63,7 +74,6 @@ public class Balance : MonoBehaviour
     public void ReturnBalance(int valueToBack)
     {
         PlayerBalance += valueToBack;
-        DrawBalance();
         UpdatePlayerPrefs();
     }
 

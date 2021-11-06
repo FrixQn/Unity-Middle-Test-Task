@@ -2,11 +2,22 @@ using UnityEngine;
 
 public class Hints : MonoBehaviour
 {
+#region SerializeFields
     [SerializeField] private int Hint1Price;
     [SerializeField] private int Hint2Price;
+#endregion
+
+#region Canvas
     private Canvas HintsCanvas {get => gameObject.GetComponent<Canvas>();} 
+#endregion
+
+#region WordsLine
     private WordsLine WordsLine { get => FindObjectOfType<WordsLine>();}
+#endregion
+
+#region Balance
     private Balance Balance {get => FindObjectOfType<Balance>();}
+#endregion
 
     public void ShowHints()
     {
